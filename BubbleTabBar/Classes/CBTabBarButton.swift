@@ -10,6 +10,7 @@ import UIKit
 
 public class CBTabBarItem: UITabBarItem {
     @IBInspectable public var tintColor: UIColor?
+    @IBInspectable public var tintInactiveColor: UIColor?
 }
 
 public class CBTabBarButton: UIControl {
@@ -65,9 +66,20 @@ public class CBTabBarButton: UIControl {
         didSet {
             if _isSelected {
                 tabImage.tintColor = tintColor
+            }else{
+                tabImage.tintColor = tintInactiveColor
             }
+            
             tabLabel.textColor = tintColor
             tabBg.backgroundColor = tintColor.withAlphaComponent(0.2)
+        }
+    }
+    
+    public var tintInactiveColor: UIColor! {
+        didSet {
+            if !_isSelected {
+                tabImage.tintColor = tintInactiveColor
+            }
         }
     }
 
@@ -133,7 +145,7 @@ public class CBTabBarButton: UIControl {
             self.tabLabel.alpha = 0.0
         }
         UIView.transition(with: tabImage, duration: duration, options: [.transitionCrossDissolve], animations: {
-            self.tabImage.tintColor = .black
+            self.tabImage.tintColor = self.tintInactiveColor
         }, completion: nil)
         
     }
